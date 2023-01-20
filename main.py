@@ -41,6 +41,16 @@ async def build_streamlit_app(button_disbled:bool = True):
 
     st.set_page_config(page_title="IP_Geo_Checker",page_icon=":bar_chart:",layout="wide")
     st.sidebar.title("IP Geo Locator")
+    st.header("IP Geo Locator Service")
+    st.write("This web page completes async queries to the supported API's shown below.")
+    st.write("As this is a hosted page,it may run into useage issues, if that occurs. ")
+    st.write("Feel free to clone the repo and run the application local.")
+
+    st.subheader("IP Geo Locator Service")
+    st.write("Repo Link:","https://github.com/BlueSideStrongSide/simple_geo_ip")
+    st.write("IPapi", "https://ip-api.com/")
+    st.write("IPGeo:", "https://ipgeolocation.io/")
+    st.write("IPWhois", "https://ipwhois.io/")
 
     #Checking Inputs
     uploaded_file = st.sidebar.file_uploader("SOURCE FILE", accept_multiple_files=False, key=None, help=None, on_change=None, args=None,
@@ -126,8 +136,6 @@ async def build_streamlit_app(button_disbled:bool = True):
                 file_name="summary.csv",
                 data=f'{await internal_dispatch.summary_results_csv}',
             )
-
-
 
 if __name__ == '__main__':
     # Drives the logic used to build our simple DB web app
