@@ -2,6 +2,7 @@ import time
 import streamlit as st
 import pandas as pd
 import asyncio
+import ipaddress
 from src.request_dispatch.dispatch import Api_Dispatch
 
 SUPPORTED_APIS = {"IpAPI":
@@ -37,7 +38,16 @@ async def communicate_with_backend(internal_dispatch,selected_apis: dict = None,
 
     print("DONE WITH EVERYTHING")
 
-async def build_streamlit_app(button_disbled:bool = True):
+async def validate_input(ip_data=None):
+    for provided_ip in ip_data:
+        try:
+            ipaddress.ip_address(provided_ip)
+        except ValueError:
+            return False
+
+    return True
+
+async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False):
 
     st.set_page_config(page_title="IP_Geo_Checker",page_icon=":bar_chart:",layout="wide")
     st.sidebar.title("IP Geo Locator")
@@ -74,6 +84,8 @@ async def build_streamlit_app(button_disbled:bool = True):
 
     internal_dispatch = Api_Dispatch(input_data=input_data)
 
+    warning_location = st.empty()
+
     #API Formatting
     st.header("Select API:")
     col1, col2, col3 = st.columns(3)
@@ -95,9 +107,13 @@ async def build_streamlit_app(button_disbled:bool = True):
     with col2:
         if input_data \
                 and not input_data[0] == "" \
+                and await validate_input(ip_data=input_data)\
                 and any([SUPPORTED_APIS["IpAPI"]["selected"],SUPPORTED_APIS["IPGeo"]["selected"],SUPPORTED_APIS["IPWhois"]["selected"]]):
 
             button_disbled = False
+        else:
+            with warning_location:
+                st.warning('Only one IP in the manual field and Input File should be new line seperated', icon="⚠️")
 
         if st.button("Submit Request",disabled=button_disbled):
             asyncio.create_task(communicate_with_backend(internal_dispatch))
