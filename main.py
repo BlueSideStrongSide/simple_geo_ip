@@ -59,7 +59,7 @@ async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False
     st.subheader("IP Geo Locator Service")
     st.write("Repo Link:","https://github.com/BlueSideStrongSide/simple_geo_ip")
     st.write("IPapi", "https://ip-api.com/")
-    st.write("IPGeo:", "https://ipgeolocation.io/")
+    st.write("IPGeo:", "https://ipgeolocation.io/", "Currently disabled in the streamlit deployed version")
     st.write("IPWhois", "https://ipwhois.io/")
 
     #Checking Inputs
@@ -70,10 +70,10 @@ async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False
     with col2:
         st.write("OR")
 
-    manual_entry = st.sidebar.text_input("Enter An Ip Address:", key="manual_text_input")
+    manual_entry = st.sidebar.text_input("Enter IP or Multiple ex: (8.8.8.8,1.1.1.1)", key="manual_text_input")
 
     if manual_entry is not None:
-        input_data = [manual_entry]
+        input_data = manual_entry.split(",")
 
     if uploaded_file is not None:
         input_data = uploaded_file.read().decode().split()
