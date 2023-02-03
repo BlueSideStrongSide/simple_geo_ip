@@ -113,7 +113,7 @@ async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False
             button_disbled = False
         else:
             with warning_location:
-                st.warning('Only one IP in the manual field, input file should be new line seperated', icon="⚠️")
+                st.warning('IP in the manual field should be comma seperated, input file should be new line seperated', icon="⚠️")
 
         if st.button("Submit Request",disabled=button_disbled):
             asyncio.create_task(communicate_with_backend(internal_dispatch))
