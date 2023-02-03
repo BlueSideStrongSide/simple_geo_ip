@@ -5,6 +5,8 @@ import asyncio
 import ipaddress
 from src.request_dispatch.dispatch import Api_Dispatch
 
+#Build out logic to create a dynamic table per API response.
+
 SUPPORTED_APIS = {"IpAPI":
                       {"selected": False,
                        "API_HomePage": "google.com",
@@ -35,8 +37,6 @@ async def communicate_with_backend(internal_dispatch,selected_apis: dict = None,
 
     if SUPPORTED_APIS["IPGeo"]["selected"]:
         asyncio.create_task(internal_dispatch.get_ipgeolocation())
-
-    print("DONE WITH EVERYTHING")
 
 async def validate_input(ip_data=None):
     for provided_ip in ip_data:
