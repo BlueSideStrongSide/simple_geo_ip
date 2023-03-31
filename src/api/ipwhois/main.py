@@ -3,9 +3,7 @@ import aiohttp
 import json
 
 #https://ipwhois.io/
-#
-#
-#
+
 
 class IpWhois:
 
@@ -31,9 +29,6 @@ class IpWhois:
                     if request_counter >= 1:
                         await asyncio.sleep(1)
                     request_counter += 1
-
-
-
 
 if __name__ == '__main__':
     test = IpWhois()

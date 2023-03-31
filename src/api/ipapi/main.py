@@ -4,9 +4,6 @@ import json
 from pathlib import Path
 
 #https://ip-api.com/
-#
-#
-#
 
 class IpApi:
 
@@ -47,12 +44,6 @@ class IpApi:
                     if request_counter >= 1:
                         await asyncio.sleep(1)
                     request_counter += 1
-
-
-
-    async def summary_fields(self):
-        ...
-
 
 if __name__ == '__main__':
     test = IpApi()
