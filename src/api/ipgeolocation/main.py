@@ -36,8 +36,8 @@ class IpGeoLocation:
     # Update ME
     async def send_request(self, ip_list:list =["8.8.8.8","1.1.1.1"]):
         headers = {"Content-Type": "application/json"}
-        request_counter = 0
 
+        request_counter = 0
         async with aiohttp.ClientSession() as session:
             for ip in ip_list:
                 async with session.get(f'https://api.ipgeolocation.io/ipgeo?'
