@@ -123,7 +123,7 @@ async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False
         geo_paid = True
         if await internal_dispatch.ipgeolocation_api():
             geo_paid = False
-            SUPPORTED_APIS["IPGeo"]["selected"] = st.checkbox(SUPPORTED_APIS["IPGeo"]["API_Label"], disabled=geo_paid)
+            SUPPORTED_APIS["IPGeo"]["selected"] = st.checkbox(SUPPORTED_APIS["IPGeo"]["API_Label"], disabled=geo_paid, label_visibility="visible")
             ip_geo_status = st.empty()
 
     placeholder = st.empty()
