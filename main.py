@@ -37,6 +37,15 @@ async def communicate_with_backend(backend_handler: Type[Api_Dispatch]=None):
     if SUPPORTED_APIS["IPGeo"]["selected"]:
         asyncio.create_task(backend_handler.get_ipgeolocation())
 
+async def hide_index_css():
+    hide_table_row_index = """
+                <style>
+                thead tr th:first-child {display:none}
+                tbody th {display:none}
+                </style>
+                """
+    return hide_table_row_index
+
 async def update_input(validated_data:list=None, backend_handler: Type[Api_Dispatch]=None):
     #updating class property with update ip address data
     try:
@@ -79,7 +88,9 @@ async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False
 
     st.subheader("IP Geo Locator Service")
     st.write("This website currently uses the API services shown below excluding IPGeo, for the streamlit version.")
-    st.dataframe(pd.DataFrame.from_dict(repo_data))
+
+    st.markdown(await hide_index_css(), unsafe_allow_html=True)
+    st.table(pd.DataFrame.from_dict(repo_data))
 
     #Checking Inputs
     uploaded_file = st.sidebar.file_uploader("SOURCE FILE", accept_multiple_files=False, key=None, help=None, on_change=None, args=None,
@@ -173,8 +184,9 @@ async def build_streamlit_app(button_disbled:bool = True,input_valid:bool =False
                     i+=1
                     await asyncio.sleep(.5)
             with tab2:
-                st.text("Summarize Result")
-                summary_table = st.dataframe(await internal_dispatch.summarize_results(),use_container_width=True)
+                st.markdown(await hide_index_css(), unsafe_allow_html=True)
+                summary_table = st.table(await internal_dispatch.summarize_results())
+
                 st.map(await internal_dispatch.summary_map,zoom=2, use_container_width=True)
 
             st.sidebar.download_button(
