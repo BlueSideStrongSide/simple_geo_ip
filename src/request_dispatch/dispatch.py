@@ -77,20 +77,18 @@ class Api_Dispatch:
 
         if api == "ipapi":
             latest_result = self.get_ipapi_results[0]
-
             self.get_ipapi_results.pop(0)
 
         if api == "ipgeo":
             latest_result = self.get_ipgeolocation_results[0]
-
             self.get_ipgeolocation_results.pop(0)
 
         if api == "ipwhois":
             latest_result = self.get_ipwhois_results[0]
-
             self.get_ipwhois_results.pop(0)
 
         self.all_results.append(latest_result)
+        
         return latest_result
 
     #update method name
@@ -101,12 +99,10 @@ class Api_Dispatch:
     async def get_ipapi(self):
         print("get_ipapi Worker Starting")
         self.get_ipapi_status = "Running"
-
+        current_api = "ipapi"
+        
         async for result in IpApi().send_request(self.input_data):
-            # print(result)
-            current_api = "ipapi"
             self.get_ipapi_results.append(result)
-
             self.all_counter[current_api] = self.all_counter[current_api] + 1
 
         self.get_ipapi_status = "Finished"
